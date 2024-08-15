@@ -1,0 +1,15 @@
+.mytext {
+    color: rgb(15, 14, 14);
+}
+
+.mytext:hover {
+    color: #2113c0;
+    font-weight: bold;
+
+    /* Red blue on hover */
+}
+
+.mybtn-log {
+    padding-left: 20px;
+    /* Adds 20px of left padding to the button */
+}
