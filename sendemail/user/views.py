@@ -247,4 +247,34 @@ def success_view_(request):
 
 
 
+from django.shortcuts import render, redirect
+from .forms import UploadFileForm
+from django.core.files.storage import FileSystemStorage
+
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = request.FILES['file']
+            fs = FileSystemStorage()
+            filename = fs.save(file.name, file)
+            file_url = fs.url(filename)
+            return redirect('file_list')
+    else:
+        form = UploadFileForm()
+    return render(request, 'upload.html', {'form': form})
+
+def file_list(request):
+    from django.conf import settings
+    from django.core.files.storage import FileSystemStorage
+    
+    fs = FileSystemStorage()
+    files = fs.listdir('')[1]  # List all files in the media root
+    file_urls = [fs.url(file) for file in files if file.lower().endswith(('.png', '.jpg', '.jpeg', '.gif'))]  # Filter image files
+    
+    return render(request, 'file_list.html', {'file_urls': file_urls})
+
+
+
+
 

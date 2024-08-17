@@ -85,7 +85,6 @@ class CustomForm(forms.Form):
 
 #product forms 
 
-from django import forms
 
 class ProductFeedbackForm(forms.Form):
     product_name = forms.CharField(
@@ -111,3 +110,9 @@ class ProductFeedbackForm(forms.Form):
         widget=forms.SelectDateWidget(attrs={'class': 'form-control'}),
         label="Purchase Date"
     )
+    
+
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()
+

@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 from .views import youtube_video_view,datepicker
 
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.signup_view, name='signup'),
@@ -20,6 +22,7 @@ urlpatterns = [
     
     path('feedback/', views.feedback_view, name='feedback_form'),
     path('success_/', views.success_view_, name='success_page_'),
-    
-    
-]
+    path('upload/', views.upload_file, name='upload_file'),
+    path('files/', views.file_list, name='file_list'),
+    # other paths
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

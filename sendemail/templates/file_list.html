@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Image Gallery</h2>
+<div class="gallery">
+    {% for file_url in file_urls %}
+        <img src="{{ file_url }}" alt="Image" class="gallery-image">
+    {% empty %}
+        <p>No images uploaded yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}
