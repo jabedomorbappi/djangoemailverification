@@ -127,7 +127,7 @@ def login_view(request):
                 if user.email_is_verified:
                     auth_login(request, user)
                     messages.success(request, 'Successfully logged in.')
-                    return redirect(request.GET.get('next', 'verify-email-done'))
+                    return redirect(request.GET.get('next', 'home'))
                 else:
                     messages.warning(request, 'Your email is not verified. Please verify your email.')
                     return redirect('verify-email')
@@ -139,3 +139,7 @@ def login_view(request):
 
     context = {'form': form}
     return render(request, 'admin/login.html', context)
+
+
+def home (request):
+    return render(request,"user/home.html")

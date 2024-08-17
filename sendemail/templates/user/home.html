@@ -1,0 +1,116 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
+
+
+      <style>
+       
+    
+        .containerr {
+          width: 100vw;
+          height: 100vh;
+          background: rgb(115, 115, 226);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+    
+        #cursor {
+          position: fixed;
+          width: 10px;
+          height: 10px;
+          background-color: rgb(255, 255, 255);
+          border-radius: 50%;
+          z-index: 9;
+        }
+    
+        .containerr img {
+          height: 100vh;
+          position: absolute;
+        }
+    
+        .box {
+          width: 480px;
+          height: 100vh;
+          position: absolute;
+          background: rgba(255, 0, 0, 0);
+          z-index: 8;
+        }
+      </style>
+      <body>
+        <div id="cursor"></div>
+        <div class="containerr">
+          <div class="box"></div>
+          <img
+            src="https://images.unsplash.com/photo-1721807578532-dc1756624727?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8"
+            alt="image"
+          />
+        </div>
+    
+
+
+
+
+
+
+
+
+
+        <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+        integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+      ></script>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+        integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+      ></script>
+      <script>
+        container = document.querySelector(".containerr");
+let box = document.querySelector(".box");
+let cursor = document.querySelector("#cursor");
+
+container.addEventListener("mousemove", function (dets) {
+  gsap.to("#cursor", {
+    x: dets.x,
+    y: dets.y,
+    ease: "back.out",
+  });
+});
+
+container.addEventListener("mouseenter", function () {
+  cursor.style.display = "block";
+});
+
+container.addEventListener("mouseleave", function () {
+  cursor.style.display = "none";
+});
+
+box.addEventListener("mouseenter", function () {
+    gsap.to(cursor, {
+        scale: 4
+    })
+});
+
+box.addEventListener("mouseleave", function () {
+    gsap.to(cursor, {
+        scale: 1
+    })
+});
+      </script>
+
+  {% endblock content %}
+

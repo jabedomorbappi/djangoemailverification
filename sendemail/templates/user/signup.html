@@ -82,19 +82,19 @@
                                 </div>
                                 <button type='submit' class="btn btn-primary btn-user btn-block">Create Account</button>
                                 <hr>
-                                <a href="index.html" class="btn btn-google btn-user btn-block">
+                                {% comment %} <a href="index.html" class="btn btn-google btn-user btn-block">
                                     <i class="fab fa-google fa-fw"></i> Register with Google
                                 </a>
                                 <a href="index.html" class="btn btn-facebook btn-user btn-block">
                                     <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                                </a>
+                                </a> {% endcomment %}
                             </form>
                             <hr>
-                            <div class="text-center">
+                            {% comment %} <div class="text-center">
                                 <a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div>
+                            </div> {% endcomment %}
                             <div class="text-center">
-                                <a class="small" href="login.html">Already have an account? Login!</a>
+                                <a class="small" href="{% url 'login' %}">Already have an account? Login!</a>
                             </div>
                         </div>
                     </div>
