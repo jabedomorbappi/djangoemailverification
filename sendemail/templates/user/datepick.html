@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container my-5">
+    <h1 class="text-center mb-4">Date Picker and Interactive Clock</h1>
+
+    <!-- Date Picker -->
+    <div class="mb-4">
+        <label for="datePicker" class="form-label">Select Date:</label>
+        <input type="date" id="datePicker" class="form-control">
+    </div>
+
+    <!-- Interactive Clock -->
+    <div class="text-center">
+        <canvas id="clock" class="clock"></canvas>
+    </div>
+</div>
+
+
+
+<div class="container my-5">
+    <h1 class="text-center mb-4">Google Map</h1>
+
+    <!-- Embedded Google Map -->
+    <div class="embed-responsive embed-responsive-16by9">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126905.2267877626!2d-122.34017214351643!3d37.7954570728514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085801ddef23ffb%3A0x97c80b430b0000!2sSan%20Francisco%2C%20CA!5e0!3m2!1sen!2sus!4v1617892546383!5m2!1sen!2sus"
+            width="600" 
+            height="450" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy">
+        </iframe>
+    </div>
+</div>
+
+<!-- Include Bootstrap and Custom JS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+
+<!-- Include Clock JS -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    function startClock() {
+        const canvas = document.getElementById('clock');
+        const ctx = canvas.getContext('2d');
+        const radius = canvas.height / 2;
+        canvas.width = canvas.height = radius * 2; // Ensure canvas is square
+        ctx.translate(radius, radius);
+        setInterval(drawClock, 1000);
+        drawClock(); // Initial call
+
+        function drawClock() {
+            ctx.clearRect(-radius, -radius, canvas.width, canvas.height);
+
+            // Draw the clock face
+            ctx.beginPath();
+            ctx.arc(0, 0, radius - 10, 0, 2 * Math.PI);
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 8;
+            ctx.stroke();
+
+            // Draw the numbers
+            ctx.font = '24px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            for (let num = 1; num <= 12; num++) {
+                const angle = num * (Math.PI / 6);
+                ctx.fillText(num, Math.cos(angle) * (radius - 30), Math.sin(angle) * (radius - 30));
+            }
+
+            // Draw the hands
+            const now = moment();
+            const hour = now.hour() % 12;
+            const minute = now.minute();
+            const second = now.second();
+
+            // Hour hand
+            const hourAngle = (Math.PI / 6) * hour + (Math.PI / 360) * minute;
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.rotate(hourAngle);
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, -radius / 2);
+            ctx.stroke();
+            ctx.rotate(-hourAngle);
+
+            // Minute hand
+            const minuteAngle = (Math.PI / 30) * minute;
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.rotate(minuteAngle);
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, -radius + 30);
+            ctx.stroke();
+            ctx.rotate(-minuteAngle);
+
+            // Second hand
+            const secondAngle = (Math.PI / 30) * second;
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'red';
+            ctx.beginPath();
+            ctx.rotate(secondAngle);
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, -radius + 10);
+            ctx.stroke();
+            ctx.rotate(-secondAngle);
+        }
+    }
+
+    startClock();
+});
+</script>
+
+<style>
+.clock {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #000;
+    border-radius: 50%;
+    position: relative;
+    margin: 0 auto;
+}
+</style>
+
+{% endblock content %}

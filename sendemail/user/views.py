@@ -143,3 +143,48 @@ def login_view(request):
 
 def home (request):
     return render(request,"user/home.html")
+
+
+
+# create a youbue video in website 
+
+
+# def youtube_video_view(request):
+#     video_id = ["d-IwBrLt2aI?si=6qjmlnB6wU5maLwV" ,"zieItsS9Zvs?si=mJDNSV2UNZtvAMqD"] # Example video ID
+#     return render(request, 'user/youtube_video.html', {'video_id': video_id})
+from django.shortcuts import render, get_object_or_404
+
+
+#video_ids = ["d-IwBrLt2aI?si=6qjmlnB6wU5maLwV" ,"zieItsS9Zvs?si=mJDNSV2UNZtvAMqD"]
+
+def youtube_video_view(request, video_index=0):
+    # List of video IDs (without query parameters)
+    video_ids = ["d-IwBrLt2aI", "zieItsS9Zvs","aiMtb5g6970"]
+
+    # Ensure the video_index is within the valid range
+    video_index = int(video_index)
+    if video_index < 0:
+        video_index = 0
+    elif video_index >= len(video_ids):
+        video_index = len(video_ids) - 1
+
+    # Get the current video ID
+    current_video_id = video_ids[video_index]
+
+    # Determine if there are previous or next videos
+    has_previous = video_index > 0
+    has_next = video_index < len(video_ids) - 1
+
+    context = {
+        'video_id': current_video_id,
+        'video_index': video_index,
+        'has_previous': has_previous,
+        'has_next': has_next,
+    }
+
+    return render(request, 'user/youtube_video.html', context)
+
+
+
+def datepicker(request):
+    return render(request,'user/datepick.html')

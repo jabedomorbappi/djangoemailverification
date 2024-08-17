@@ -20,17 +20,27 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="" style="color: black;">Add Category </a>
+            <button type="button" class="btn btn-light btn-sm">
+              <a class="nav-link mytext" href="{% url 'youtube_video' video_index=0 %}">YouTube Video</a>
+            </button>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">Show Category</a>
-          </li>
+            <button type="button" class="btn btn-light btn-sm">
+              <a class="nav-link mytext" href="{% url 'youtube_video' video_index=0 %}">YouTube Video</a>
+            </button>
+            {% comment %} <a class=" btn btn-light btn-sm" href="{% url 'youtube_video' video_index=0 %}">YouTube Video</a> {% endcomment %}
+        </li>
+        
           <li class="nav-item">
-            <a class="nav-link" href="" id="navbarDropdown">ProductStore</a>
+            <button type="button" class="btn btn-light btn-sm">
+              <a class="nav-link mytext" href="{% url 'youtube_video' video_index=0 %}">YouTube Video</a>
+            </button>
           </li>
           <!-- Using a placeholder id for demonstration purposes -->
           <li class="nav-item">
-            <a class="nav-link" href="">Show product</a>
+            <button type="button" class="btn btn-light btn-sm">
+              <a class="nav-link mytext" href="{% url 'datepick' %}">datepick</a>
+            </button>
           </li>
         
         {% comment %} <form class="form-inline my-2 my-lg-0">

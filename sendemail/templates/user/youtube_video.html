@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container my-5">
+    <h1 class="text-center mb-4">Embedded YouTube Video</h1>
+
+    <div class="text-center mb-4">
+        <div class="ratio ratio-16x9">
+            <iframe 
+                src="https://www.youtube.com/embed/{{ video_id }}" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div class="me-2">
+            {% if has_previous %}
+                <a href="{% url 'youtube_video' video_index=video_index|add:-1 %}">
+                    <button class="btn btn-primary">Previous Video</button>
+                </a>
+            {% else %}
+                <button class="btn btn-secondary" disabled>Previous Video</button>
+            {% endif %}
+        </div>
+
+        <div class="ms-2">
+            {% if has_next %}
+                <a href="{% url 'youtube_video' video_index=video_index|add:1 %}">
+                    <button class="btn btn-primary">Next Video</button>
+                </a>
+            {% else %}
+                <button class="btn btn-secondary" disabled>Next Video</button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
