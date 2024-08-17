@@ -48,3 +48,34 @@ class CustomUser(AbstractUser):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+
+
+
+
+
+from django.db import models
+
+class CustomData(models.Model):
+    text_box_1 = models.CharField(max_length=100)
+    text_box_2 = models.CharField(max_length=100)
+    dropdown_1 = models.CharField(max_length=50)
+    dropdown_2 = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.text_box_1}, {self.text_box_2}, {self.dropdown_1}, {self.dropdown_2}"
+
+
+
+
+from django.db import models
+
+class ProductFeedback(models.Model):
+    product_name = models.CharField(max_length=100)
+    customer_name = models.CharField(max_length=100)
+    rating = models.CharField(max_length=10)
+    feedback = models.TextField()
+    purchase_date = models.DateField()
+
+    def __str__(self):
+        return f"{self.product_name} by {self.customer_name} - {self.rating} Stars"
+

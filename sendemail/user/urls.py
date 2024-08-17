@@ -15,5 +15,11 @@ urlpatterns = [
     path('datepick/', datepicker, name='datepick'),
     path('youtube/<int:video_index>/', youtube_video_view, name='youtube_video'),
     path('youtube/', youtube_video_view, {'video_index': 0}, name='youtube_default'),  # Default to the first video
-   
+    path('custom-form/', views.custom_view, name='custom_form'),
+    path('success/', views.success_view, name='success_page'),
+    
+    path('feedback/', views.feedback_view, name='feedback_form'),
+    path('success_/', views.success_view_, name='success_page_'),
+    
+    
 ]

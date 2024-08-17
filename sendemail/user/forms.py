@@ -1,53 +1,13 @@
 from django import forms
 from django.contrib.auth import authenticate, get_user_model
 
-from django import forms
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
-
-# class UserRegisterForm(forms.ModelForm):
-#     password = forms.CharField(label='Password', widget=forms.PasswordInput)
-#     password2 = forms.CharField(label='Repeat Password', widget=forms.PasswordInput)
-
-#     class Meta:
-#         model = User
-#         fields = [
-#             'first_name',
-#             'last_name',
-#             'mobile_number',
-#             'email',
-#             'password',
-#         ]
-
-#     def clean_password2(self):
-#         password = self.cleaned_data.get('password')
-#         password2 = self.cleaned_data.get('password2')
-#         if password != password2:
-#             raise forms.ValidationError('Passwords do not match')
-#         return password2
-
-#     def clean_email(self):
-#         email = self.cleaned_data.get('email')
-#         if User.objects.filter(email=email).exists():
-#             raise forms.ValidationError('This Email already exists')
-#         return email
-
-#     def clean_password(self):
-#         password = self.cleaned_data.get('password')
-#         if len(password) < 5:
-#             raise forms.ValidationError('Your password should have more than 5 characters')
-#         return password
-from django import forms
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 class UserRegisterForm(forms.ModelForm):
     password = forms.CharField(
         label='Password',
-        widget=forms.PasswordInput(attrs={'class': 'form-control'})
-    )
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})    )
     password2 = forms.CharField(
         label='Repeat Password',
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
@@ -95,4 +55,59 @@ class UserLoginForm(forms.Form):
     password = forms.CharField(
         label='Password',
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
+    
+    
+from django import forms
+
+
+class CustomForm(forms.Form):
+    text_box_1 = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    text_box_2 = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    dropdown_1 = forms.ChoiceField(
+        choices=[('option1', 'Option 1'), ('option2', 'Option 2')],
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    dropdown_2 = forms.ChoiceField(
+        choices=[('option1', 'Option 1'), ('option2', 'Option 2')],
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+
+
+
+
+
+#product forms 
+
+from django import forms
+
+class ProductFeedbackForm(forms.Form):
+    product_name = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        label="Product Name"
+    )
+    customer_name = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        label="Your Name"
+    )
+    rating = forms.ChoiceField(
+        choices=[(str(i), f"{i} Stars") for i in range(1, 6)],
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label="Rating"
+    )
+    feedback = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+        label="Feedback"
+    )
+    purchase_date = forms.DateField(
+        widget=forms.SelectDateWidget(attrs={'class': 'form-control'}),
+        label="Purchase Date"
     )

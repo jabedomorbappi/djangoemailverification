@@ -188,3 +188,63 @@ def youtube_video_view(request, video_index=0):
 
 def datepicker(request):
     return render(request,'user/datepick.html')
+
+
+
+
+from django.shortcuts import render, redirect
+from .forms import CustomForm
+from .models import CustomData
+
+def custom_view(request):
+    if request.method == 'POST':
+        form = CustomForm(request.POST)
+        if form.is_valid():
+            # Save the form data to the database
+            CustomData.objects.create(
+                text_box_1=form.cleaned_data['text_box_1'],
+                text_box_2=form.cleaned_data['text_box_2'],
+                dropdown_1=form.cleaned_data['dropdown_1'],
+                dropdown_2=form.cleaned_data['dropdown_2'],
+            )
+            
+            # Redirect to a new URL or render a success message
+            return redirect('success_page')
+    else:
+        form = CustomForm()
+
+    return render(request, 'user/custom_template.html', {'form': form})
+
+
+def success_view(request):
+    return render(request, 'user/success.html')
+
+
+
+from django.shortcuts import render, redirect
+from .forms import ProductFeedbackForm
+from .models import ProductFeedback
+
+def feedback_view(request):
+    if request.method == 'POST':
+        form = ProductFeedbackForm(request.POST)
+        if form.is_valid():
+            ProductFeedback.objects.create(
+                product_name=form.cleaned_data['product_name'],
+                customer_name=form.cleaned_data['customer_name'],
+                rating=form.cleaned_data['rating'],
+                feedback=form.cleaned_data['feedback'],
+                purchase_date=form.cleaned_data['purchase_date'],
+            )
+            return redirect('success_page_')
+    else:
+        form = ProductFeedbackForm()
+
+    return render(request, 'user/feedback_form.html', {'form': form})
+
+def success_view_(request):
+    return render(request, 'user/success_.html')
+
+
+
+
