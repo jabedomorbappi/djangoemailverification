@@ -47,6 +47,19 @@ class UserRegisterForm(forms.ModelForm):
         if len(password) < 5:
             raise forms.ValidationError('Your password should have more than 5 characters')
         return password
+# class UserLoginForm(forms.Form):
+#     email = forms.EmailField(
+#         label='Email',
+#         widget=forms.EmailInput(attrs={'class': 'form-control'})
+#     )
+#     password = forms.CharField(
+#         label='Password',
+#         widget=forms.PasswordInput(attrs={'class': 'form-control'})
+#     )
+    
+from django import forms
+from django.contrib.auth import authenticate
+
 class UserLoginForm(forms.Form):
     email = forms.EmailField(
         label='Email',
@@ -56,6 +69,23 @@ class UserLoginForm(forms.Form):
         label='Password',
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
+
+    def __init__(self, *args, **kwargs):
+        self.user = None
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+
+        if email and password:
+            self.user = authenticate(email=email, password=password)
+            if self.user is None:
+                raise forms.ValidationError('Invalid email or password')
+        return self.cleaned_data
+
+    def get_user(self):
+        return self.user
     
     
 from django import forms

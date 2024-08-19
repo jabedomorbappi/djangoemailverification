@@ -12,10 +12,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
 from .forms import UserLoginForm
-
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 User = get_user_model()
-
+#admin_user = User.objects.create_superuser('admin', 'admin@example.com', 'password123')
 
 
 # send email with verification link
@@ -114,32 +114,62 @@ def signup_view(request):
     }         
     return render(request,'user/signup.html',context)
 
-User = get_user_model()
+#User = get_user_model()
+
+# def login_view(request):
+#     if request.method == "POST":
+#         form = UserLoginForm(request.POST)
+#         if form.is_valid():
+#             email = form.cleaned_data['email']
+#             password = form.cleaned_data['password']
+#             user = authenticate(request, email=email, password=password)
+#             if user is not None:
+#                 if user.email_is_verified:
+#                     auth_login(request, user)
+#                     messages.success(request, 'Successfully logged in.')
+
+#                     return redirect(request.GET.get('next', 'home'))
+#                 else:
+#                     messages.warning(request, 'Your email is not verified. Please verify your email.')
+#                     return redirect('verify-email')
+#             else:
+#                 messages.error(request, 'Invalid email or password.')
+#                 return redirect('login')
+#     else:
+#         form = UserLoginForm()
+
+#     context = {'form': form}
+#     return render(request, 'admin/login.html', context)
+from django.shortcuts import redirect, render
+from django.contrib import messages
+from django.urls import reverse
 
 def login_view(request):
     if request.method == "POST":
         form = UserLoginForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            user = authenticate(request, email=email, password=password)
-            if user is not None:
+            user = form.get_user()
+            if user.is_active:
                 if user.email_is_verified:
                     auth_login(request, user)
                     messages.success(request, 'Successfully logged in.')
+                    
+                    if user.is_staff or user.is_superuser:
+                        return redirect('/admin/')
+                    
                     return redirect(request.GET.get('next', 'home'))
                 else:
                     messages.warning(request, 'Your email is not verified. Please verify your email.')
                     return redirect('verify-email')
             else:
-                messages.error(request, 'Invalid email or password.')
-                return redirect('login')
+                messages.error(request, 'Account is inactive.')
+        else:
+            messages.error(request, 'Invalid email or password.')
     else:
         form = UserLoginForm()
 
     context = {'form': form}
     return render(request, 'admin/login.html', context)
-
 
 def home (request):
     return render(request,"user/home.html")
@@ -275,6 +305,33 @@ def file_list(request):
     return render(request, 'file_list.html', {'file_urls': file_urls})
 
 
+
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render
+
+from . models import Employee
+
+
+def index(request):
+    object_list = Employee.objects.all()
+    page_num = request.GET.get('page', 1)
+
+    paginator = Paginator(object_list, 6) # 6 employees per page
+
+
+    try:
+        page_obj = paginator.page(page_num)
+    except PageNotAnInteger:
+        # if page is not an integer, deliver the first page
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        # if the page is out of range, deliver the last page
+        page_obj = paginator.page(paginator.num_pages)
+
+    return render(request, 'employee.html', {'page_obj': page_obj})
+
+""" Using class-based view """
 
 
 

@@ -79,3 +79,16 @@ class ProductFeedback(models.Model):
     def __str__(self):
         return f"{self.product_name} by {self.customer_name} - {self.rating} Stars"
 
+
+
+
+
+
+class Employee(models.Model):
+    title = models.TextField()
+
+    class Meta:
+        ordering = ['id']
+
+    def __str__(self):
+        return self.title

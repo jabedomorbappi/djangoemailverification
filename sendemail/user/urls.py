@@ -24,5 +24,7 @@ urlpatterns = [
     path('success_/', views.success_view_, name='success_page_'),
     path('upload/', views.upload_file, name='upload_file'),
     path('files/', views.file_list, name='file_list'),
+    path('employee', views.index,name='employee')
     # other paths
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
